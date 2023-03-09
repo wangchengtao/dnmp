@@ -28,6 +28,26 @@ services:
       #default:
       #  ipv4_address: 10.0.0.10
 
+hyperf80:
+  build:
+    context: ./services/hyperf80
+    args:
+      CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+      TZ: "$TZ"
+  container_name: hyperf80
+  privileged: true
+  ports:
+    - 9500:9501
+  volumes:
+    - ${SOURCE_DIR}:/www/:rw
+  restart: always
+  tty: true
+  cap_add:
+    - SYS_PTRACE
+  networks:
+    - default
+
+
   php:
     build:
       context: ./services/php
