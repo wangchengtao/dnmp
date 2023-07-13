@@ -21,7 +21,7 @@ if ! which docker-php-ext-configure >/dev/null || ! which docker-php-ext-enable 
 	exit 1
 fi
 
-IPE_VERSION=master
+IPE_VERSION=2.1.35
 
 StandWithUkraine() {
 	if test -t 1 && ! grep -Eq '^VERSION=.*jessie' /etc/os-release; then
@@ -4225,4 +4225,3 @@ for PHP_MODULE_TO_INSTALL in $PHP_MODULES_TO_INSTALL; do
 	esac
 done
 cleanup
-
