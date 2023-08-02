@@ -28,25 +28,47 @@ services:
       #default:
       #  ipv4_address: 10.0.0.10
 
-hyperf80:
-  build:
-    context: ./services/hyperf80
-    args:
-      CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
-      TZ: "$TZ"
-  container_name: hyperf80
-  privileged: true
-  ports:
-    - 9500:9501
-  volumes:
-    - ${SOURCE_DIR}:/www/:rw
-  restart: always
-  tty: true
-  cap_add:
-    - SYS_PTRACE
-  networks:
-    - default
+  hyperf80:
+    build:
+      context: ./services/hyperf80
+      args:
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        TZ: "$TZ"
+    container_name: hyperf80
+    privileged: true
+    ports:
+      - 9500:9501
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+    restart: always
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - default
 
+  php81:
+    build:
+      context: ./services/php81
+      args:
+        PHP_VERSION: php:${PHP81_VERSION}-fpm-alpine3.16
+        CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${PHP81_EXTENSIONS}
+        TZ: "$TZ"
+    container_name: php81
+    extra_hosts:
+      - "www.hadmin3.dev:172.19.0.100"
+    volumes:
+      - ${SOURCE_DIR}:/www/:rw
+      - ${PHP81_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP81_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:rw
+      - ${PHP81_LOG_DIR}:/var/log/php
+      - ${DATA_DIR}/composer:/tmp/composer
+    restart: always
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - default
 
   php:
     build:
