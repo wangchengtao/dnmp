@@ -33,11 +33,12 @@ services:
       context: ./services/hyperf80
       args:
         CONTAINER_PACKAGE_URL: ${CONTAINER_PACKAGE_URL}
+        PHP_EXTENSIONS: ${HYPERF80_EXTENSIONS}
         TZ: "$TZ"
     container_name: hyperf80
     privileged: true
     ports:
-      - 9500:9501
+      - "9501:9501"
     volumes:
       - ${SOURCE_DIR}:/www/:rw
     restart: always

@@ -8,11 +8,16 @@
 FROM hyperf/hyperf:8.1-alpine-v3.16-swoole
 LABEL maintainer="Hyperf Developers <group@hyperf.io>" version="1.0" license="MIT" app.name="Hyperf"
 
+ARG TZ
+ARG PHP_EXTENSIONS
 ARG CONTAINER_PACKAGE_URL
 
 ENV TIMEZONE=${TZ:-"Asia/Shanghai"}
 
 RUN if [ $CONTAINER_PACKAGE_URL ] ; then sed -i "s/dl-cdn.alpinelinux.org/${CONTAINER_PACKAGE_URL}/g" /etc/apk/repositories ; fi
+
+RUN apk add --no-cache ${PHP_EXTENSIONS}
+COPY ./extensions /etc/php81/conf.d
 
 RUN set -ex \
     # show php version and extensions

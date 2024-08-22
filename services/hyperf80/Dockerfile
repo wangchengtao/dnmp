@@ -6,6 +6,7 @@
 # @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
 FROM hyperf/hyperf:8.0-alpine-v3.15-swoole
 
+ARG TZ
 ARG CONTAINER_PACKAGE_URL
 
 ENV TIMEZONE=${TZ:-"Asia/Shanghai"} \
