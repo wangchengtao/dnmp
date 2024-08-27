@@ -28,6 +28,19 @@ services:
       #default:
       #  ipv4_address: 10.0.0.10
 
+  pgsql11:
+    image: postgres:11.16
+    container_name: pgsql11
+    ports:
+      - "5432:5432"
+    volumes:
+      #      - ${PGSQL11_CONF_FILE}:/etc/postgresql/postgresql.conf:ro
+      - ${DATA_DIR}/pgsql11:/var/lib/postgresql/data/:rw
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - default
+
   hyperf80:
     build:
       context: ./services/hyperf80
